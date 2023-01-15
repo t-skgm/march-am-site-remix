@@ -6,9 +6,10 @@
     "build": "run-s build:*",
     "build:css": "npm run generate:css -- --minify",
     "build:remix": "remix build",
-    "dev": "run-p dev:*",
+    "dev": "remix build && run-p \"dev:*\"",
     "dev:css": "npm run generate:css -- --watch",
-    "dev:remix": "cross-env NODE_ENV=development binode --require ./mocks -- @remix-run/dev:remix dev",
+    "dev:remix": "remix watch",
+    "dev:wrangler": "cross-env NODE_ENV=development npm run wrangler",
     "format": "prettier --write .",
     "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
@@ -20,7 +21,8 @@
     "pretest:e2e:run": "npm run build",
     "test:e2e:run": "cross-env PORT=8811 start-server-and-test start:mocks http://localhost:8811 \"npx cypress run\"",
     "typecheck": "tsc -b && tsc -b cypress",
-    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
+    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run",
+    "wrangler": "wrangler pages dev ./public"
   },
   "prettier": {},
   "eslintIgnore": [
@@ -30,6 +32,7 @@
   ],
   "dependencies": {
     "@prisma/client": "^4.5.0",
+    "@remix-run/cloudflare-pages": "^1.10.1",
     "@remix-run/cloudflare-workers": "^1.10.1",
     "@remix-run/react": "^1.10.1",
     "@remix-run/serve": "^1.10.1",
@@ -79,7 +82,8 @@
     "typescript": "^4.8.4",
     "vite": "^3.2.2",
     "vite-tsconfig-paths": "^3.5.2",
-    "vitest": "^0.24.5"
+    "vitest": "^0.24.5",
+    "wrangler": "^2.2.1"
   },
   "engines": {
     "node": ">=14"

@@ -1,8 +1,6 @@
-import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/cloudflare";
 import { RemixServer } from "@remix-run/react";
-import isbot from "isbot";
-import { renderToPipeableStream, renderToString } from "react-dom/server";
+import { renderToString } from "react-dom/server";
 
 export default function handleRequest(
   request: Request,
@@ -10,7 +8,7 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  let markup = renderToString(
+  const markup = renderToString(
     <RemixServer context={remixContext} url={request.url} />
   );
 
